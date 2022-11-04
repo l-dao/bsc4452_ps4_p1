@@ -1,0 +1,45 @@
+import urllib.request, urllib.parse, urllib.error
+import json
+import random
+
+#This prevents a 404 error if input is not on API
+breeds_list = 'https://dog.ceo/api/breeds/list/all' 
+uk = urllib.request.urlopen(breeds_list)
+datu = uk.read().decode()
+jon = json.loads(datu)
+string = jon
+
+#connects to random dog API
+serviceurl = 'https://dog.ceo/api/breed/'
+
+#asks for input from user and goes to the database for that input
+while True:
+    dog_breed = input('Enter a breed name: ')
+    if len(dog_breed) < 1: break
+    
+    #if input is valid
+    elif dog_breed in jon['message']:
+        url = serviceurl + dog_breed + '/images'      #goes to source of images for inputted breed
+        print('Raw data: ', url)
+        
+        uh = urllib.request.urlopen(url)
+        data = uh.read().decode()
+        js = json.loads(data)
+        parse_js = json.loads(data)
+        
+        #quantifies number of images in dataset
+        dog_images = parse_js["message"]
+        total_images_in_breed = len(dog_images)     
+        
+        #bottom and top end of random image search
+        a = 0                          
+        b = total_images_in_breed  
+        
+        print("There are", total_images_in_breed, "images of", dog_breed, "in the Dog CEO API")
+        print("Here is your", dog_breed, dog_images[random.randint(a,b)])     
+        break
+    
+    #if input is invalid
+    else:
+        print(dog_breed, "is invalid, please run again.") 
+        break
