@@ -1,0 +1,32 @@
+import requests
+baseurl = "https://rickandmortyapi.com/api/"
+endpoint = 'character'
+r = requests.get(baseurl+endpoint)
+print(r)
+data = r.json()
+
+print (data['info'])
+
+print (data)
+
+episode = data['results'][0]['episode']
+print(episode)
+print(len(episode))
+
+name = data['results'][0]['name']
+print(len(name))
+
+print(r.headers)
+parse_json(data)
+
+stat = data['results'][0]['status']
+while True:
+    lstatus = input('character name:')
+    if len(lstatus)<1:break
+    elif lstatus in stat:
+        url =  baseurl + lstatus 
+        print('your link:',url)
+        print(data['results'],index[lstatus])
+    else:
+        print(lstatus,"is not available")
+        break
